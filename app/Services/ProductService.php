@@ -3,12 +3,13 @@
 namespace App\Services;
 
 use App\Models\Product;
+use App\Repository\Contracts\ProductRepositoryInterface;
 use App\Services\Contracts\ProductServiceInterface;
 use Illuminate\Http\Request;
 
 class ProductService implements ProductServiceInterface
 {
-    public function __construct(private Product $product)
+    public function __construct(private ProductRepositoryInterface $product)
     {
     }
 
@@ -33,19 +34,11 @@ class ProductService implements ProductServiceInterface
 
     public function edit(Request $request): mixed
     {
-        $product = $this->product->find($request->id);
-
-        if ($product) {
-            $product->update($request->all());
-
-            return $product->refresh();
-        }
-
-        return false;
+        return $this->product->update($request->id, $request->all());
     }
 
     public function delete(int $id): mixed
     {
-        return $this->product->where('id', $id)->delete();
+        return $this->product->delete($id);
     }
 }
