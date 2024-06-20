@@ -11,4 +11,13 @@ class Controller extends BaseController
 {
     use AuthorizesRequests, ValidatesRequests;
     use Response;
+    use \App\Traits\Authorizes\AuthorizesRequests;
+
+    /**
+     * @return array
+     */
+    protected function resourcesAbilityMap(): array
+    {
+        return [];
+    }
 }

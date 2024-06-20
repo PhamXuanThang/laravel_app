@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Enum\CommonRole;
 use App\Http\Requests\Products\CreateProductRequest;
+use App\Models\Product;
 use Illuminate\Http\Request;
 use App\Services\Contracts\ProductServiceInterface;
 
@@ -10,6 +12,7 @@ class ProductController extends Controller
 {
     public function __construct(private ProductServiceInterface $productService)
     {
+        $this->authorizeResources(Product::class);
     }
 
     public function index(): mixed
@@ -45,5 +48,17 @@ class ProductController extends Controller
         $record = $this->productService->delete($id);
 
         return $this->successResponse($record);
+    }
+
+
+    /**
+     * @return array
+     */
+    #[\Override]
+    protected function resourcesAbilityMap(): array
+    {
+        return [
+            'index' => CommonRole::Admin->value,
+        ];
     }
 }

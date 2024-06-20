@@ -75,6 +75,4 @@ interface RepositoryInterface
      * @return $this
      */
     public function with(array|string $relations): static;
-
-
 }
