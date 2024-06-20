@@ -2,6 +2,7 @@
 
 namespace App\Providers;
 
+use App\Http\Middleware\AllowCors;
 use App\Http\Middleware\AlwaysReturnJson;
 use App\Http\Middleware\MobileGuard;
 use Illuminate\Cache\RateLimiting\Limit;
@@ -29,7 +30,7 @@ class RouteServiceProvider extends ServiceProvider
         $this->configureRateLimiting();
 
         $this->routes(function () {
-            Route::middleware([AlwaysReturnJson::class, MobileGuard::class, 'api',])
+            Route::middleware([AlwaysReturnJson::class, MobileGuard::class, 'api', AllowCors::class])
                 ->prefix('api')
                 ->group(base_path('routes/api.php'));
 
